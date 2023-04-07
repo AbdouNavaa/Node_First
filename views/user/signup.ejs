@@ -1,0 +1,35 @@
+<%- include('../partials/header')-%>
+<%- include('../partials/navbar')-%>
+
+<div class="container mt-5">
+  <div class="row justify-content-center ">
+    <div class="col-md-6 ">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4">Sign Up</h3>
+          <%- include('../partials/flashMessage')-%>
+
+          <form action="/users/signup" method="post">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" style="width: 510px;border-radius: 20px;" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Mot de passe</label>
+              <input type="password" style="width: 510px;border-radius: 20px;" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+              <label for="confirme_password">Congirme Mot de passe</label>
+              <input type="confirme_password" style="width: 510px;border-radius: 20px;" class="form-control" id="confirme_password" name="confirme_password" required>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-secondary mt-3" style="width: 510px;border-radius: 20px;">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer')-%>

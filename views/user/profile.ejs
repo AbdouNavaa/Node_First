@@ -1,0 +1,33 @@
+<%- include('../partials/header')-%>
+<%- include('../partials/navbar')-%>
+    
+<div class="container">
+    <div class="row mt-4">
+        <div class="col mt-3">
+            <img src="<%= '/images/' + user.avatar %>" alt=""  width="250px" height="250px"
+            style=" border-radius: 200px;">
+        </div>
+    <div class="col-md-9 ">
+        <div class="display-4">Profile </div>
+        <hr>
+        <%- include('../partials/flashMessage')-%>
+
+        <p>
+            <% if (user) {%>
+                <h4> Welcome .. your email is <%= user.email%></h4>
+                <%}%>
+        </p>
+
+        <form action="/users/uploadAvatar" method="post" enctype="multipart/form-data">
+            <input type="file" name="avatar" id="avatar" onchange="readUrl(this)">
+            <button type="submit" class="btn btn-secondary" style="border-radius: 20px; width: 100px;">Upload</button>
+        </form>
+
+        <hr> 
+        <h1 class="display-4">Image Preview</h1>
+        <img src="#" alt="" id="imagePlaceholder" height="200px", width="400px" style="display: none;">
+    </div>
+</div>
+</div>
+
+    <%- include('../partials/footer')-%>
