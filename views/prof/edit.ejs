@@ -1,0 +1,50 @@
+<%- include('../partials/header')-%>
+<%- include('../partials/navbar')-%>
+    
+<div class="container">
+    <div class="row mt-4">
+    <div class="col-md-6 offset-md-2">
+        <div class="display-4">Edit the Prof:</div>
+        <hr>
+        <%- include('../partials/flashMessage')-%>
+       
+        
+        <form action="/profs/update" method="post" >
+            
+            <div class="form-group">
+                <label for="nom">Name</label>
+                <input type="text" name="nom" id="nom" class="form-control" value="<%= prof.nom%>">
+            </div>
+
+            <div class="form-group">
+                <label for="prenom">Last Name</label>
+                <input type="text" name="prenom" id="prenom" class="form-control" value="<%= prof.prenom%>">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control" value="<%= prof.email%>">
+            </div>
+            
+            <input type="hidden" name="id" value="<%= prof.id%>">
+            <div class="form-group">
+                <label for="matiere">Matiere</label>
+                <input type="text" name="matiere" id="matiere"class="form-control" value="<%= prof.matiere%>">
+            </div>
+
+            <div class="form-group">
+                <label for="date_Naissance">Date Naissance</label>
+                <input type="date" name="date_Naissance" id="date_Naissance"class="form-control" value="<%= profDate%>">
+            </div>
+
+            <div class="form-group mt-3" >
+                <button type="submit" class="btn btn-info" style="width: 550px;border-radius: 20px;">Update</button>
+                <a href="<%= '/profs/' + prof.id%>" class="btn btn-dark"
+                    style="width: 550px;border-radius: 20px;margin-top:1%">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+    <%- include('../partials/footer')-%>

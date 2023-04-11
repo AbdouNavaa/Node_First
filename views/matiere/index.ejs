@@ -1,0 +1,32 @@
+<%- include('../partials/header')-%>
+<%- include('../partials/navbar')-%>
+<table class="table mt-3" style="margin: 10px;">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Proffesseur</th>
+        <th scope="col">Name</th>
+        <th scope="col">Coef</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody >
+      <% let i = 1; %>
+      <% chunk.forEach((matieres) =>{ %>
+        <% matieres.forEach((matier) =>{ %>
+          <tr>
+            <td scope="row"><%= i %></td>
+            <td><%= matier.prof.nom %> <%= matier.prof.prenom%> </td>
+            <td><%= matier.name %></td>
+            <td><%= matier.coef %></td>
+            <td>
+              <a href="<%= '/matieres/' + matier.id %>" class="btn btn-dark" style="border-radius: 20px;">Show More</a>
+            </td>
+          </tr>
+          <% i++; %>
+        <% }) %>
+      <% }) %>
+    </tbody>
+  </table>
+  
+  <%- include('../partials/footer')-%>

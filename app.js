@@ -50,10 +50,16 @@ app.get('/', (req, res) => {
 //bring event routes
 const events = require('./routers/event-routes')
 app.use('/events', events)
+//bring prof routes
+const profs = require('./routers/prof-routers')
+app.use('/profs', profs)
 
 //bring user routes
 const users = require('./routers/user-routes')
 app.use('/users', users)
+//bring matiere routes
+const matieres = require('./routers/matiere-routes')
+app.use('/matieres', matieres)
 
 
 //listen to port

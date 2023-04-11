@@ -1,0 +1,44 @@
+<%- include('../partials/header')-%>
+<%- include('../partials/navbar')-%>
+    
+<div class="container">
+    <div class="row mt-4">
+    <div class="col-md-6 offset-md-2">
+        <div class="display-4">Add New Event:</div>
+        <hr>
+        <%- include('../partials/flashMessage')-%>
+       
+
+        <form action="/matieres/create" method="post" >
+           
+            <div class="form-group">
+                <label for="prof">Prof</label>
+                <select name="prof" id="prof" class="form-control">
+                  <% teachers.forEach(function(teacher) { %>
+                    <option value="<%= teacher._id %>"><%= teacher.nom %></option>
+                  <% }) %>
+                </select>
+              </div>
+                            
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" class="form-control">
+            </div>
+
+            
+            <div class="form-group">
+                <label for="coef">coef</label>
+                <input type="number" name="coef" id="coef" class="form-control">
+            </div>
+            
+
+            <div class="form-group mt-3" >
+                <button type="submit" class="btn btn-info" 
+                style="width: 550px;border-radius: 20px;">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+    <%- include('../partials/footer')-%>
