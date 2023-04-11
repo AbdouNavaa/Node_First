@@ -1,35 +1,59 @@
 <%- include('../partials/header')-%>
 <%- include('../partials/navbar')-%>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/login.css">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-key">
+                <i class="fa fa-key" aria-hidden="true"></i>
+            </div>
+            <div class="col-lg-12 login-title">
+                Sign Up
+            </div>
+            <%- include('../partials/flashMessage')-%>
 
-<div class="container mt-5">
-  <div class="row justify-content-center ">
-    <div class="col-md-6 ">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-title text-center mb-4">Sign Up</h3>
-          <%- include('../partials/flashMessage')-%>
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    <form action="/users/signup" method="post">
+                        <div class="form-group">
+                            <label for="email" class="form-control-label">EMAIL</label>
+                            <input name="email" id="email" type="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="form-control-label">PASSWORD</label>
+                            <input name="password" id="password" type="password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirme_password" class="form-control-label">Confirme Password</label>
+                            <input name="confirme_password" id="confirme_password" type="password" class="form-control" required>
+                        </div>
 
-          <form action="/users/signup" method="post">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" style="width: 510px;border-radius: 20px;" class="form-control" id="email" name="email" required>
+                        <div class="col-lg-12 loginbttm">
+                            <div class="col-lg-6 login-btm login-text">
+                                <!-- Error Message -->
+                            </div>
+                            <div class="col-lg-7 login-btm login-button">
+                                <button type="submit" class="center btn btn-outline-primary" style="width: 450px;border-radius: 20px;">Sign UP</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-              <label for="password">Mot de passe</label>
-              <input type="password" style="width: 510px;border-radius: 20px;" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-              <label for="confirme_password">Congirme Mot de passe</label>
-              <input type="confirme_password" style="width: 510px;border-radius: 20px;" class="form-control" id="confirme_password" name="confirme_password" required>
-            </div>
-            <div class="form-group text-center">
-                <button type="submit" class="btn btn-secondary mt-3" style="width: 510px;border-radius: 20px;">Register</button>
-            </div>
-          </form>
+            <div class="col-lg-3 col-md-2"></div>
         </div>
-      </div>
     </div>
-  </div>
-</div>
 
+    
 <%- include('../partials/footer')-%>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>

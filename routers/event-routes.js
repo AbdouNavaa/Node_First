@@ -12,7 +12,22 @@ isAuthenticated = (req, res, next) => {
 } 
 //route to home
 router.get('/', isAuthenticated,async (req, res) => {
- 
+    /* let pageNo = 1
+    // if( req.params.pageNo == 0){
+    //     pageNo = 1
+    // }
+
+    // let q = {
+    //     skip: 2 * (pageNo - 1),
+    //     limit: 2
+    // }
+    // // find total documents
+    // let totalDocs = 0
+    // Event.countDocuments({}, (err, total) => {
+
+    // }).then(response =>{
+    //     console.log(response);
+    })*/
     try {
       const events = await Event.find({});
       let chunk = []

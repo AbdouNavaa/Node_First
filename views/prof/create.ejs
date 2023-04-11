@@ -1,0 +1,47 @@
+<%- include('../partials/header')-%>
+<%- include('../partials/navbar')-%>
+    
+<div class="container">
+    <div class="row mt-4">
+    <div class="col-md-6 offset-md-2">
+        <div class="display-4">Add New Event:</div>
+        <hr>
+        <%- include('../partials/flashMessage')-%>
+       
+
+        <form action="/profs/create" method="post" >
+           
+            <div class="form-group">
+                <label for="nom">Name</label>
+                <input type="text" name="nom" id="nom" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="prenom">Last Name</label>
+                <input type="text" name="prenom" id="prenom" class="form-control">
+            </div>
+
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="matiere">Matiere</label>
+                <input type="text" name="matiere" id="matiere" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="date_Naissance">date_Naissance</label>
+                <input type="date" name="date_Naissance" id="date_Naissance" class="form-control">
+            </div>
+
+            <div class="form-group mt-3" >
+                <button type="submit" class="btn btn-info" 
+                style="width: 550px;border-radius: 20px;">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+    <%- include('../partials/footer')-%>
