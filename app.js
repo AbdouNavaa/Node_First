@@ -44,12 +44,9 @@ app.get('*', (req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-    res.redirect('/events')
+    res.redirect('/profs')
 });
 
-//bring event routes
-const events = require('./routers/event-routes')
-app.use('/events', events)
 //bring prof routes
 const profs = require('./routers/prof-routers')
 app.use('/profs', profs)
@@ -57,9 +54,14 @@ app.use('/profs', profs)
 //bring user routes
 const users = require('./routers/user-routes')
 app.use('/users', users)
+
 //bring matiere routes
 const matieres = require('./routers/matiere-routes')
 app.use('/matieres', matieres)
+
+//bring matiere routes
+const courses = require('./routers/cours-routes')
+app.use('/courses', courses)
 
 
 //listen to port

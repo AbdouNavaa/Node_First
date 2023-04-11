@@ -11,7 +11,7 @@ isAuthenticated = (req, res, next) => {
     res.redirect('/users/login')
 } 
 //route to home
-router.get('/', isAuthenticated,async (req, res) => {
+router.get('/',async (req, res) => {
     try {
       const profs = await Prof.find({});
       let chunk = []
@@ -32,7 +32,7 @@ router.get('/', isAuthenticated,async (req, res) => {
   });
   
 //Create new Prof
-router.get('/create',isAuthenticated,(req, res) =>{
+router.get('/create',(req, res) =>{
     res.render('prof/create',{errors: req.flash('errors')})
 })
 
@@ -41,7 +41,6 @@ router.post('/create',[
     check('nom').isLength({min: 3}).withMessage('nom should be more than 3 chars'),
     check('prenom').isLength({min: 3}).withMessage('prenom should be more than 3 chars'),
     check('email').isLength({min: 10}).withMessage('email should be more than 10 chars'),
-    check('matiere').isLength({min: 3}).withMessage('matiere also should be more than 3 chars'),
     check('date_Naissance').isLength({min: 5}).withMessage('date_Naissance should be more than 5 chars')
 ], async (req, res) =>{
     const errors = validationResult(req)
@@ -57,8 +56,6 @@ router.post('/create',[
             nom: req.body.nom,
             prenom: req.body.prenom,
             email: req.body.email,
-            matiere: req.body.matiere,
-            user_id: req.user.id,
             date_Naissance: req.body.date_Naissance,
         })
     
@@ -89,7 +86,7 @@ router.get('/:id',async (req, res) => {
 })
 
 //Edit Prof
-router.get('/edit/:id',isAuthenticated,async (req, res) =>{
+router.get('/edit/:id',async (req, res) =>{
     try {
         const prof = await Prof.findOne({_id: req.params.id});
       res.render('prof/edit', {
@@ -107,9 +104,8 @@ router.post('/update', [
     check('nom').isLength({min: 3}).withMessage('First Name should be more than 3 chars'),
     check('prenom').isLength({min: 3}).withMessage('Last Name should be more than 3 chars'),
     check('email').isLength({min: 10}).withMessage('email should be more than 10 chars'),
-    check('matiere').isLength({min: 3}).withMessage('matiere also should be more than 5 chars'),
     check('date_Naissance').isLength({min: 5}).withMessage('Date should be more than 5 chars')
-], isAuthenticated,async (req, res) =>{
+],async (req, res) =>{
     const errors = validationResult(req)
 
     
@@ -121,7 +117,6 @@ router.post('/update', [
             nom: req.body.nom,
             prenom: req.body.prenom,
             email: req.body.email,
-            matiere: req.body.matiere,
             date_Naissance: req.body.date_Naissance
         }
     
@@ -137,7 +132,7 @@ router.post('/update', [
 });
 
 //Delete prof
-router.delete('/delete/:id',isAuthenticated, async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
     try {
         await Prof.deleteOne({_id: req.params.id});
         res.status(200).json('Deleted')

@@ -1,0 +1,178 @@
+const experss = require("express");
+const router = experss();
+const {check, validationResult} = require("express-validator")
+const bodyParser = require('body-parser');
+const moment = require("moment");
+const Matiere = require("../models/matiere");
+const Prof = require("../models/Prof");
+const Cours = require("../models/cours");
+moment().format()
+
+//Middleware to check if user is logged in
+// isAuthenticated = (req, res, next) => {
+//     if(req.isAuthenticated()) return next()
+//     res.redirect('/users/login')
+// } 
+
+//route to home
+router.get('/',async (req, res) => {
+    try {
+        const cours = await Cours.find()
+        .populate('prof', 'nom') // Charger le modèle Prof avec le champ nom
+        .populate('matiere', 'name') // Charger le modèle Matiere avec le champ nom
+        
+  
+      // Calculer le total pour chaque cours
+      cours.forEach((cour) => {
+        const total = cour.CM + (cour.TD * 2/3) + (cour.TP * 2/3)
+        cour.total = total
+    })
+    dateCour = moment(cours.date).format('YYYY-MM-DD')
+  
+      res.render('cours/index', {
+        cours: cours,
+        dateCour: dateCour,
+        message: req.flash('info')
+      })
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  });
+  
+
+
+  
+//Create new Matiere
+router.get('/create',  async (req, res) => {
+    try {
+      const teachers = await Prof.find({});
+      const matieres = await Matiere.find({});
+      res.render('cours/create', { 
+        teachers: teachers, 
+        matieres: matieres, 
+        errors: req.flash('errors') })
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  })
+  
+  
+
+  
+  router.post('/create', async (req, res) => {
+    const { date, Deb, Fin, prof,matiere, CM, TD, TP } = req.body;
+  
+    // Calculer la somme de CM, TD et TP
+    const total = CM + (TD * 2 / 3) + (TP * 2 / 3);
+  
+    try {
+      const newCours = new Cours({
+        date,
+        Deb,
+        Fin,
+        matiere,
+        prof,
+        CM,
+        TD,
+        TP,
+        total, // Ajouter le champ total dans l'objet à sauvegarder
+      });
+  
+      await newCours.save();
+  
+      req.flash('info', 'The cours was created successfully');
+      res.redirect('/courses');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  });
+  
+
+
+//show single Cours
+router.get('/:id',async (req, res) => {
+    try {
+        const cours = await Cours.findOne({_id: req.params.id}).populate('prof').populate('matiere');
+      res.render('cours/show', {cours: cours})
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+      }
+
+})
+
+//Edit Matiere
+router.get('/edit/:id',async (req, res) =>{
+    try {
+        const cours = await Cours.findOne({_id: req.params.id})
+        .populate('prof', 'nom')
+        .populate('matiere');
+        const profs = await Prof.find({});
+        const matieres = await Matiere.find({});
+      res.render('cours/edit', {
+        cours: cours, 
+        profs: profs, 
+        matieres: matieres,
+        coursDate: moment(cours.date).format('YYYY-MM-DD'), 
+        Deb: moment(cours.Deb).format('HH:MM'), 
+        Fin: moment(cours.Fin).format('HH:MM'), 
+        errors: req.flash('errors'),
+        message: req.flash('info')
+    })
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+      }
+})
+router.post('/update', [
+    check('date').isLength({min: 5}).withMessage('date should be more than 5 chars'),
+    check('Deb').isLength({min: 3}).withMessage('date should be more than 3 chars'),
+    check('Fin').isLength({min: 3}).withMessage('date should be more than 3 chars'),
+   
+], async (req, res) =>{
+    const errors = validationResult(req)
+
+    
+    if(!errors.isEmpty()){
+        req.flash('errors',errors.array())
+        res.redirect('/courses/edit/' + req.body.id)
+    }else{
+        let updateCours = {
+            prof: req.body.prof,
+            matiere: req.body.matiere,
+            date: req.body.date,
+            Deb: req.body.Deb,
+            Fin: req.body.Fin,
+            CM: req.body.CM,
+            TD: req.body.TD,
+            TP: req.body.TP,
+            total: req.body.total,
+        }
+    
+        try {
+            await Cours.updateOne({_id: req.body.id}, updateCours);
+            req.flash('info', 'The cours was created Successfuly');
+            res.redirect('/courses/edit/' + req.body.id);
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Server Error');
+        }
+    }
+});
+
+//Delete Matiere
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        await Cours.deleteOne({_id: req.params.id});
+        res.status(200).json('Deleted')
+      } catch (err) {
+        console.error(err);
+        res.status(404).send('There was an error Cours was not deleted');
+      }
+   
+})
+
+module.exports = router

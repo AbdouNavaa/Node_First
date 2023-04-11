@@ -1,34 +1,32 @@
 <%- include('../partials/header')-%>
 <%- include('../partials/navbar')-%>
-<table class="table mt-3" style="margin: 10px;">
-    <thead class="table-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nom</th>
-        <th scope="col">Prénom</th>
-        <th scope="col">Email</th>
-        <th scope="col">Matière</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody >
-      <% let i = 1; %>
-      <% chunk.forEach((profs) =>{ %>
-        <% profs.forEach((prof) =>{ %>
-          <tr>
-            <td scope="row"><%= i %></td>
-            <td><%= prof.nom %></td>
-            <td><%= prof.prenom %></td>
-            <td><%= prof.email %></td>
-            <td><%= prof.matiere %></td>
-            <td>
-              <a href="<%= '/profs/' + prof.id %>" class="btn btn-dark" style="border-radius: 20px;">Show More</a>
-            </td>
-          </tr>
-          <% i++; %>
-        <% }) %>
-      <% }) %>
-    </tbody>
-  </table>
-  
-  <%- include('../partials/footer')-%>
+    <div class="container">
+
+       <div class="row mt-3">
+        <div class="col md-12">
+            <%- include('../partials/flashMessage')-%>
+        </div>
+       </div>
+       <% chunk.forEach((profs) =>{%>
+        <div class="row mt-5">
+            <% profs.forEach((prof) =>{%>
+           <div class="col-sm-6 col-md-4">
+            <div class="card text-center"  >
+                <div class="card-body" >
+                  <div class="card-header bg-dark text-white">
+                    <h5 class="card-text " style="font-style: italic;"><%= prof.nom%> <%= prof.prenom%></h5>
+                  </div>  
+                  <div class="card-body">
+                    <p class="card-title" style="font-style: italic;"><%= prof.email%></p>
+                    <p  style="font-style: italic;"><%= prof.date_Naissance.toDateString()%></p>
+                    <a href="<%= '/profs/' + prof.id%>" class="btn btn-dark">Show More</a>
+                  </div>
+              </div>
+           </div>
+        </div>
+       <% })%>
+    </div>
+    <% })%>
+
+   
+    <%- include('../partials/footer')-%>

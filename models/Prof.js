@@ -12,18 +12,15 @@ const profSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    matiere:{
-        type: String,
-        required: true
-    },
+    
     date_Naissance:{
         type: Date,
         required: true
     },
-    user_id:{
-        type: String,
-        required: true
-    },
+    // user_id:{
+    //     type: String,
+    //     required: true
+    // },
     
 })
 

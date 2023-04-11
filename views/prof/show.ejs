@@ -9,16 +9,13 @@
                             <h5 class="card-title " style="font-style: italic;"><%= prof.nom%> <%= prof.prenom%></h5>
                             <hr>
                             <p class="card-text"><%= prof.email%></p>
-                            <p class="card-title" style="font-style: italic;"><%= prof.matiere%></p>
                             <p  style="font-style: italic; color: aliceblue;" class="bg-secondary"><%= prof.date_Naissance.toDateString()%></p>
 
-                            <% if ((user) && (user.id == prof.user_id)){%>
                             <a href="<%= '/profs/edit/' + prof.id%>" class="btn btn-primary" style="width: 49%; border-radius: 30px;">Edit</a>
                             <!-- <a href="" class="btn btn-danger" style="width: 49%; border-radius: 30px;">Delete</a>  -->
                             <button href="" class="btn btn-danger" style="width: 49%; border-radius: 30px;" 
                             onclick="deleteprof()" id="deleteProf" data-prof="<%= prof.id%>">Delete</button> 
 
-                            <%}%>
                    </div>
                 </div>
             </div>

@@ -6,17 +6,15 @@
                     <div class="card text-center"  >
                         <div class="card-body" >
                             <!-- <a href="<%= '/matieres/'%>" class="btn btn-dark">Back to Home</a> -->
-                            <h5 class="card-title " style="font-style: italic;"><%= matiere.prof.nom%> <%= matiere.prof.prenom%> </h5>
+                            <h5 class="card-title " style="font-style: italic;"><%= matiere .name%> </h5>
                             <hr>
                             <p class="card-text"><%= matiere.name%></p>
                             <p class="card-title" style="font-style: italic;"><%= matiere.coef%></p>
 
-                            <% if ((user) && (user.id == matiere.user_id)){%>
                             <a href="<%= '/matieres/edit/' + matiere.id%>" class="btn btn-primary" style="width: 49%; border-radius: 30px;">Edit</a>
                             <button href="" class="btn btn-danger" style="width: 49%; border-radius: 30px;" 
                             onclick="deletematiere()" id="deleteMatiere" data-matiere="<%= matiere.id%>">Delete</button> 
 
-                            <%}%>
                    </div>
                 </div>
             </div>

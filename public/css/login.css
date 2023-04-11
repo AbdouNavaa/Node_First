@@ -1,5 +1,5 @@
 body {
-    background: #222D32;
+    background: #e3e7ea;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -8,14 +8,14 @@ body {
     height: auto;
     background: #1A2226;
     text-align: center;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    box-shadow: 0 3px 6px rgba(197, 38, 38, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .login-key {
     height: 100px;
     font-size: 80px;
     line-height: 100px;
-    background: -webkit-linear-gradient(#27EF9F, #0DB8DE);
+    background: -webkit-linear-gradient(#27EF9F, #de8b0d);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -45,7 +45,7 @@ input[type=email] {
     outline: 0;
     margin-bottom: 20px;
     padding-left: 0px;
-    color: #ECF0F5;
+    color: white;
 }
 
 input[type=password] {

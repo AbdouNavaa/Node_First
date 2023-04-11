@@ -28,6 +28,22 @@ function deletematiere() {
             })
     }
 }
+function deletecours() {
+    let btn = document.getElementById('deleteCours')
+    let id = btn.getAttribute('data-cours')
+
+    if (confirm("Êtes-vous sûr de vouloir supprimer ce cours?")) {
+        axios.delete('/courses/delete/'+ id)
+            .then((res) => {
+                console.log(res.data)
+                alert('cours was deleted')
+                window.location.href = '/courses'
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+}
 function deleteprof() {
     let btn = document.getElementById('deleteProf')
     let id = btn.getAttribute('data-prof')

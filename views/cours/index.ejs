@@ -1,0 +1,71 @@
+<%- include('../partials/header')-%>
+<%- include('../partials/navbar')-%>
+
+
+
+<div class="container mt-3" style="padding-left: 50%;">
+  <form action="#">
+    <div class="row">
+      <div class="col">
+        <input type="date" class="form-control" id="email" placeholder="Enter email" name="email">
+      </div>
+      <div class="col">
+        <input type="date" class="form-control" placeholder="Enter password" name="pswd">
+      </div>
+      <div class="col">
+        <button type="submit" class="form-control btn btn-primary">Calculer</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<table class="table mt-3" style="margin: 10px;">
+    <thead class="table">
+      <!-- <tr>
+        <td colspan="5"></td>
+        <td colspan="3" style="text-align: center; font-weight: bolder;">Type</td>
+      </tr> -->
+      <tr class="table-dark">
+        <td scope="col">#</td>
+        <!-- <td scope="col">Proffesseur</td> -->
+        <td colspan="1">Date</td>
+        <td colspan="1">Date Deb</td>
+        <td colspan="1">Date Fin</td>
+        <td colspan="1">Matiere</td>
+        <td colspan="1">CM</td>
+        <td colspan="1">TD</td>
+        <td colspan="1">TP</td>
+        <td colspan="1">Eq.CM</td>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody >
+      <% let i = 1; %>
+      <% const sortedCours = cours.flat().sort((a, b) => new Date(a.date) - new Date(b.date)); %>
+      <% sortedCours.forEach((cour) =>{ %>
+          <tr>
+            <td scope="row"><%= i %></td>
+            <td  style="font-style: italic;"><%= cour.date.toLocaleDateString('fr-FR') %></td>
+            <td><%= cour.Deb.toLocaleTimeString() %></td>
+            <td><%= cour.Fin.toLocaleTimeString() %></td>
+            <td><%= cour.matiere.name%> </td>
+            <!-- <td><%= cour.prof%> </td> -->
+            <td><%= cour.CM%> </td>
+            <td><%= cour.TD%> </td>
+            <td><%= cour.TP%> </td>
+            <td><%= cour.total.toFixed(2) %> </td>
+           <td>
+            <a href="<%= '/courses/edit/' + cour.id%>" class="btn btn-primary" style="width: 49%; border-radius: 30px;">Edit</a>
+            <button href="" class="btn btn-danger" style="width: 49%; border-radius: 30px;" 
+            onclick="deletecours()" id="deleteCours" data-cours="<%= cour.id%>">Delete</button> 
+
+           </td>
+          </tr>
+          
+          <% i++; %>
+        <% }) %>
+    </tbody>
+  </table>
+  
+  <%- include('../partials/footer')-%>
