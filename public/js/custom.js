@@ -44,6 +44,22 @@ function deletecours() {
             })
     }
 }
+function deleteAllcours() {
+    let btn = document.getElementById('deleteAllCours')
+    // let id = btn.getAttribute('data-Allcours')
+
+    if (confirm("Êtes-vous sûr de vouloir supprimer Tous les cours?")) {
+        axios.delete('/courses/deleteAll')
+            .then((res) => {
+                console.log(res.data)
+                alert('cours was deleted')
+                window.location.href = '/courses'
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+}
 function deleteprof() {
     let btn = document.getElementById('deleteProf')
     let id = btn.getAttribute('data-prof')

@@ -6,6 +6,8 @@ const moment = require("moment");
 const Matiere = require("../models/matiere");
 const Prof = require("../models/Prof");
 const Cours = require("../models/cours");
+const middlewares = require('./middlewares');
+
 moment().format()
 
 //Middleware to check if user is logged in
@@ -18,8 +20,8 @@ moment().format()
 router.get('/',async (req, res) => {
     try {
         const cours = await Cours.find()
-        .populate('prof', 'nom') // Charger le modèle Prof avec le champ nom
-        .populate('matiere', 'name') // Charger le modèle Matiere avec le champ nom
+        .populate('prof') // Charger le modèle Prof avec le champ nom
+        .populate('matiere') // Charger le modèle Matiere avec le champ nom
         
   
       // Calculer le total pour chaque cours
@@ -39,9 +41,108 @@ router.get('/',async (req, res) => {
       res.status(500).send('Server Error');
     }
   });
+
+
+
+
+ 
+  router.get('/cours-list', async (req, res) => {
+    try {
+      const dateDeb = new Date(req.query.dateDeb || '2023-04-01');
+      const dateFin = new Date(req.query.dateFin || '2023-05-01');
   
+      const cours = await Cours.find({
+        date: { $gte: dateDeb, $lte: dateFin },
+      }).populate('prof');
+  
+      const coursParProf = {};
+      cours.forEach((cour) => {
+        const profId = cour.prof._id.toString();
+        if (!coursParProf[profId]) {
+          coursParProf[profId] = {
+            nom: cour.prof.nom,
+            Taux: cour.prof.Taux,
+            total: 0,
+            nbCours: 0,
+          };
+        }
+        coursParProf[profId].total +=
+          cour.CM + (cour.TD * 2) / 3 + (cour.TP * 2) / 3;
+        coursParProf[profId].nbCours += 1;
+      });
+  
+      const resultat = {};
+      for (const profId in coursParProf) {
+        resultat[profId] = {
+          nom: coursParProf[profId].nom,
+          Taux: coursParProf[profId].Taux,
+          total: coursParProf[profId].total,
+          totalAvecTaux: coursParProf[profId].total * coursParProf[profId].Taux,
+        };
+      }
+  
+      res.render('cours/cours-List', { resultat, dateDeb, dateFin });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  });
+  
+  
+  
+router.get('/total', async (req, res) => {
+    try {
+      const { dateDeb, dateFin } = req.query;
+      const cours = await Cours.find({
+        date: { $gte: new Date(dateDeb), $lte: new Date(dateFin) },
+      });
+      let total = 0;
+      cours.forEach((cour) => {
+        total += cour.CM + (cour.TD * 2/3) + (cour.TP * 2/3);
+      });
+      res.json({ total });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  });
+   
 
+router.get('/prof/:id', async (req, res) => {
+    try {
+      const prof = await Prof.findById(req.params.id);
+      const cours = await Cours.find({ prof: prof._id }).populate('prof', 'nom')
+      .populate('matiere', 'name');
 
+        // Calculer le total pour chaque cours
+        cours.forEach((cour) => {
+            const total = cour.CM + (cour.TD * 2/3) + (cour.TP * 2/3)
+            cour.total = total
+        })
+      res.render('cours/course', { cours, prof : prof});
+    } catch (err) {
+      console.error(err);
+      res.redirect('/cours');
+    }
+  });
+  
+  router.get('/total/:id', async (req, res) => {
+    try {
+      const { dateDeb, dateFin } = req.query;
+      const cours = await Cours.find({prof: req.params.id,
+        date: { $gte: new Date(dateDeb), $lte: new Date(dateFin) },
+      }).select('-total');
+      let total = 0;
+      cours.forEach((cour) => {
+        total += cour.CM + (cour.TD * 2/3) + (cour.TP * 2/3);
+      });
+      res.json({ total });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  });
+  
   
 //Create new Matiere
 router.get('/create',  async (req, res) => {
@@ -57,9 +158,6 @@ router.get('/create',  async (req, res) => {
       res.status(500).send('Server Error');
     }
   })
-  
-  
-
   
   router.post('/create', async (req, res) => {
     const { date, Deb, Fin, prof,matiere, CM, TD, TP } = req.body;
@@ -167,6 +265,16 @@ router.post('/update', [
 router.delete('/delete/:id', async (req, res) => {
     try {
         await Cours.deleteOne({_id: req.params.id});
+        res.status(200).json('Deleted')
+      } catch (err) {
+        console.error(err);
+        res.status(404).send('There was an error Cours was not deleted');
+      }
+   
+})
+router.delete('/deleteAll', async (req, res) => {
+    try {
+        await Cours.deleteMany({});
         res.status(200).json('Deleted')
       } catch (err) {
         console.error(err);

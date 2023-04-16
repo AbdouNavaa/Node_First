@@ -1,7 +1,4 @@
-const mongoose = require('mongoose')
-
-const Prof = require('./Prof');
-const Matiere = require('./matiere');
+const mongoose = require('mongoose');
 
 const courSchema = new mongoose.Schema({
   prof: {
@@ -33,12 +30,19 @@ const courSchema = new mongoose.Schema({
   TP: {
     type: Number,
   },
-  total: { type: Number, default: 0 },
-  // user_id: {
-  //   type: String,
-  //   required: true
-  // },
-})
+  total: { type: Number, default: 0 }
+});
 
-const Cours = mongoose.model('Cours', courSchema, 'Cours')
-module.exports = Cours  
+// // middleware de suppression pour supprimer automatiquement les cours associés lorsqu'un professeur ou une matière est supprimé(e)
+// courSchema.pre('delete', async function (next) {
+//   try {
+//     await mongoose.model('Prof').updateOne({ _id: this.prof }, { $pull: { courses: this._id } });
+//     await mongoose.model('Matiere').updateOne({ _id: this.matiere }, { $pull: { courses: this._id } });
+//     next();
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+const Cours = mongoose.model('Cours', courSchema, 'Cours');
+module.exports = Cours;

@@ -150,7 +150,7 @@ router.post('/update', [
   
       try {
           await Matiere.updateOne({_id: req.body.id}, updateMatiere);
-          req.flash('info', 'The Matiere was created Successfuly');
+          req.flash('info', 'The Matiere was Updated Successfuly');
           res.redirect('/matieres/edit/' + req.body.id);
       } catch (err) {
           console.error(err);

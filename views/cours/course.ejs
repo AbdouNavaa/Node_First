@@ -1,6 +1,7 @@
 <%- include('../partials/header')-%>
 <%- include('../partials/navbar')-%>
 
+
 <div class="container mt-3" style="padding-left: 50%;">
   <form id="date-form" action="#">
     <div class="row">
@@ -10,11 +11,12 @@
       <div class="col">
         <input type="date" class="form-control" id="date-fin" placeholder="Date fin" name="date-fin">
       </div>
+  <input type="hidden" id="prof-select" name="prof-select" value="<%= prof._id%>">
       <div class="col">
         <button type="submit" class="form-control btn btn-primary">Calculer</button>
       </div>
       <div class="col">
-        <input type="text" class="form-control" id="total" placeholder="Total">
+        <input type="text" class="form-control" id="total" placeholder="Total" disabled>
       </div>
     </div>
   </form>
@@ -27,13 +29,9 @@
 
 <table class="table mt-3" style="margin: 10px;">
     <thead class="table">
-      <!-- <tr>
-        <td colspan="5"></td>
-        <td colspan="3" style="text-align: center; font-weight: bolder;">Type</td>
-      </tr> -->
+
       <tr class="table-dark">
         <td scope="col">#</td>
-        <!-- <td scope="col">Proffesseur</td> -->
         <td colspan="1">Date</td>
         <td colspan="1">Date Deb</td>
         <td colspan="1">Date Fin</td>
@@ -46,7 +44,7 @@
         <th scope="col">Actions</th>
       </tr>
     </thead>
-    <tbody >
+    <tbody >        
       <% let i = 1; %>
       <% const sortedCours = cours.flat().sort((a, b) => new Date(a.date) - new Date(b.date)); %>
       <% sortedCours.forEach((cour) =>{ %>
@@ -78,17 +76,21 @@
   
   
   <script>
-  const dateForm = document.getElementById('date-form');
-  const totalInput = document.getElementById('total');
-
-  dateForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const dateDeb = document.getElementById('date-deb').value;
-    const dateFin = document.getElementById('date-fin').value;
-    const response = await fetch(`/courses/total?dateDeb=${dateDeb}&dateFin=${dateFin}`);
-    const data = await response.json();
-    totalInput.value = data.total;
-  });
+    const dateForm = document.getElementById('date-form');
+    const totalInput = document.getElementById('total');
+    
+    dateForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const dateDeb = document.getElementById('date-deb').value;
+      const dateFin = document.getElementById('date-fin').value;
+      const profSelect = document.getElementById('prof-select');
+      const profId = profSelect.value; // récupère l'ID du professeur sélectionné
+      const response = await fetch(`/courses/total/${profId}?dateDeb=${dateDeb}&dateFin=${dateFin}`); // utilise la route avec l'ID du professeur
+      const data = await response.json();
+      totalInput.value = data.total;
+    });
+    
+    
 </script>
 
   <%- include('../partials/footer')-%>

@@ -1,0 +1,70 @@
+<%- include('../partials/header')-%>
+<%- include('../partials/navbar')-%>
+
+<div class="container mt-3" style="padding-left: 45%; ">
+    <form id="filter-form">
+<div class="row">
+    <div class="col">
+        <label for="dateDeb">Date de début :</label>
+        <input type="date" class="form-control" id="dateDeb" name="dateDeb" value="<%= dateDeb.toISOString().substr(0,10) %>">
+      </div>
+      <div class="col">
+        <label for="dateFin">Date de fin :</label>
+        <input type="date" class="form-control" id="dateFin" name="dateFin" value="<%= dateFin.toISOString().substr(0,10) %>">
+      </div>
+      <div class="col-4 mt-4">
+      <button type="submit" class="form-control" class="btn btn-primary">Filtrer</button>
+      </div>
+</div>
+    </form>
+  </div>
+  
+  
+
+<div class="col mt-3 text-center bg-dark text-light" style="width: 50%; margin-left: 20%;">
+<h4>Liste des cours entre <%= dateDeb.toLocaleDateString() %> et <%= dateFin.toLocaleDateString() %></h4>
+</div>
+<div class="col mt-3">
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Nom du professeur</th>
+            <th>Volume Horaire</th>
+            <th>Taux/H</th>
+            <th>Montant (MRU)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const profId in resultat) { %>
+            <tr>
+              <td><%= resultat[profId].nom %></td>
+              <td><%= resultat[profId].total.toFixed(2) %></td>
+              <td><%= resultat[profId].Taux %></td>
+              <td><%= (resultat[profId].totalAvecTaux).toFixed(2) %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+      $('#filter-form').submit(function(e) {
+        e.preventDefault();
+        const formData = $(this).serialize();
+        $.ajax({
+          type: 'GET',
+          url: '/cours-list',
+          data: formData,
+          success: function(data) {
+            $('#cours-list').html(data);
+          },
+          error: function() {
+            alert('Une erreur s\'est produite.');
+          }
+        });
+      });
+    });
+  </script>
+  
+<%- include('../partials/footer')-%>

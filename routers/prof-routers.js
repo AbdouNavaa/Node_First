@@ -3,6 +3,7 @@ const router = experss();
 const {check, validationResult} = require("express-validator")
 const moment = require("moment");
 const Prof = require("../models/Prof");
+const Cours = require("../models/cours");
 moment().format()
 
 //Middleware to check if user is logged in
@@ -31,6 +32,16 @@ router.get('/',async (req, res) => {
     }
   });
   
+
+router.get('/cours', async (req, res) => {
+    const profId = req.query.profId;
+    const cours = await Cours.find({ prof: profId });
+    res.render('prof/cours',{errors: req.flash('errors')})
+    // res.json(cours);
+  });
+
+
+  
 //Create new Prof
 router.get('/create',(req, res) =>{
     res.render('prof/create',{errors: req.flash('errors')})
@@ -41,7 +52,8 @@ router.post('/create',[
     check('nom').isLength({min: 3}).withMessage('nom should be more than 3 chars'),
     check('prenom').isLength({min: 3}).withMessage('prenom should be more than 3 chars'),
     check('email').isLength({min: 10}).withMessage('email should be more than 10 chars'),
-    check('date_Naissance').isLength({min: 5}).withMessage('date_Naissance should be more than 5 chars')
+    check('date_Naissance').isLength({min: 5}).withMessage('date_Naissance should be more than 5 chars'),
+    check('Taux').isLength({min: 3}).withMessage('Taux should existe')
 ], async (req, res) =>{
     const errors = validationResult(req)
 
@@ -57,6 +69,7 @@ router.post('/create',[
             prenom: req.body.prenom,
             email: req.body.email,
             date_Naissance: req.body.date_Naissance,
+            Taux: req.body.Taux
         })
     
         try {
@@ -104,7 +117,8 @@ router.post('/update', [
     check('nom').isLength({min: 3}).withMessage('First Name should be more than 3 chars'),
     check('prenom').isLength({min: 3}).withMessage('Last Name should be more than 3 chars'),
     check('email').isLength({min: 10}).withMessage('email should be more than 10 chars'),
-    check('date_Naissance').isLength({min: 5}).withMessage('Date should be more than 5 chars')
+    check('date_Naissance').isLength({min: 5}).withMessage('Date should be more than 5 chars'),
+    check('Taux').isLength({min: 3}).withMessage('Taux should be more than 3 numbers')
 ],async (req, res) =>{
     const errors = validationResult(req)
 
@@ -117,7 +131,8 @@ router.post('/update', [
             nom: req.body.nom,
             prenom: req.body.prenom,
             email: req.body.email,
-            date_Naissance: req.body.date_Naissance
+            date_Naissance: req.body.date_Naissance,
+            Taux: req.body.Taux
         }
     
         try {

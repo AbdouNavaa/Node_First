@@ -20,6 +20,11 @@
                     <p class="card-title" style="font-style: italic;"><%= prof.email%></p>
                     <p  style="font-style: italic;"><%= prof.date_Naissance.toDateString()%></p>
                     <a href="<%= '/profs/' + prof.id%>" class="btn btn-dark">Show More</a>
+                    <div class="card-body">
+            <form id="<%= prof.id %>" method="GET" action="<%= '/courses/prof/'+ prof.id %>">
+                <button type="submit" class="btn btn-primary">Voir les cours</button>
+            </form>
+        </div>
                   </div>
               </div>
            </div>
